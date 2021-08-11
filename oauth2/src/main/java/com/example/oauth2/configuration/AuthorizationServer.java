@@ -56,6 +56,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 				.secret(new BCryptPasswordEncoder().encode("123"))
 				.resourceIds("res1")
 				.authorizedGrantTypes("authorization_code","refresh_token")
+				.authorizedGrantTypes("refresh_token","implicit")
 				.scopes("all")
 				.redirectUris("http://localhost:8082/index.html");
 	}

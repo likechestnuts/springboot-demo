@@ -14,9 +14,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>springboot-demo</name>
     <description>Demo project for Spring Boot</description>
-    <modules>
-        <module>oauth2</module>
-    </modules>
     <properties>
         <java.version>1.8</java.version>
     </properties>
