@@ -31,6 +31,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 	TokenStore tokenStore;
 	@Autowired
 	ClientDetailsService clientDetailsService;
+	// 保存token
 	@Bean
 	AuthorizationServerTokenServices tokenServices() {
 		DefaultTokenServices services = new DefaultTokenServices();
@@ -45,6 +46,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+		// 校验token访问
 		security.checkTokenAccess("permitAll()")
 				.allowFormAuthenticationForClients();
 	}
@@ -63,6 +65,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		// 授权码
 		endpoints.authorizationCodeServices(authorizationCodeServices())
 				.tokenServices(tokenServices());
 	}
