@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,5 +47,11 @@ public class HelloController {
 			model.addAttribute("msg", entity.getBody());
 		}
 		return "index";
+	}
+
+	@GetMapping("/simple-index.html")
+	public String hello() {
+		System.out.println(11);
+		return "simple-index";
 	}
 }
