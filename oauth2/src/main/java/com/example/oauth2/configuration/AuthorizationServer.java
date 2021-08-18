@@ -7,6 +7,7 @@ package com.example.oauth2.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -31,6 +32,9 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 	TokenStore tokenStore;
 	@Autowired
 	ClientDetailsService clientDetailsService;
+	@Autowired
+	AuthenticationManager authenticationManager;
+
 	// 保存token
 	@Bean
 	AuthorizationServerTokenServices tokenServices() {
@@ -57,20 +61,21 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 				.withClient("javaboy")
 				.secret(new BCryptPasswordEncoder().encode("123"))
 				.resourceIds("res1")
-				.authorizedGrantTypes("authorization_code","refresh_token")
-				.authorizedGrantTypes("refresh_token","implicit")
+				.authorizedGrantTypes("authorization_code","refresh_token", "implicit", "password")
 				.scopes("all")
 				.redirectUris("http://localhost:8082/index.html","http://localhost:8082/simple-index.html");
 	}
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		// 授权码
-		endpoints.authorizationCodeServices(authorizationCodeServices())
+		// 授权码  账号密码模式
+		endpoints.authenticationManager(authenticationManager)
 				.tokenServices(tokenServices());
 	}
 	@Bean
 	AuthorizationCodeServices authorizationCodeServices() {
 		return new InMemoryAuthorizationCodeServices();
 	}
+
+
 }
